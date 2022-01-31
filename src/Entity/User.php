@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -27,6 +29,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string')]
     private $password;
+
+    #[ORM\OneToMany(mappedBy: 'acheteur', targetEntity: Commende::class)]
+    private $commendes;
+
+    public function __construct()
+    {
+        $this->commendes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -115,5 +125,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|Commende[]
+     */
+    public function getCommendes(): Collection
+    {
+        return $this->commendes;
+    }
+
+    public function addCommende(Commende $commende): self
+    {
+        if (!$this->commendes->contains($commende)) {
+            $this->commendes[] = $commende;
+            $commende->setAcheteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommende(Commende $commende): self
+    {
+        if ($this->commendes->removeElement($commende)) {
+            // set the owning side to null (unless already changed)
+            if ($commende->getAcheteur() === $this) {
+                $commende->setAcheteur(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -1,0 +1,35 @@
+User:oui
+- nom : string, 255
+- prenom: string, 255
+- adresse: string, 255
+- cp: string, 20
+- tel: string, 45
+
+Categorie:oui
+- nom: string, 255
+- reference: string, 15
+
+Serie:oui
+- nom: string, 255
+- reference: string, 2
+
+Produit:oui
+- nom: string, 255
+- reference: string, 5
+- description: text
+- prixHt: float
+- stock: integer
+- categorie: relation, -> Categorie, 1 Produit a 1 Categorie et 1 Categorie a N Produit (ManyToOne ou un OneToMany)
+- serie: relation, -> Serie, 1 Produit a 1 Serie et 1 Serie a N Produit (ManyToOne ou un OneToMany)
+
+CommandeDetail
+- produit: relation, -> Produit, 1 CommandeDetail a 1 Produit et 1 Produit a N CommandeDetail (ManyToOne ou un OneToMany)
+- quantite: integer
+
+Commande
+- acheteur: relation, -> User, 1 Commande a 1 User et 1 User a N Commande (ManyToOne ou un OneToMany)
+- reference: string, 45
+- details: relation, -> CommandeDetail, 1 Commande a N CommandeDetail et 1 CommandeDetail a 1 Commande (ManyToOne ou un OneToMany)
+- dateCommande: date
+- dateExpedition: date
+- dateReception: date
