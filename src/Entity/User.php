@@ -30,7 +30,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string')]
     private $password;
 
-    #[ORM\OneToMany(mappedBy: 'acheteur', targetEntity: Commende::class)]
+    #[ORM\OneToMany(mappedBy: 'acheteur', targetEntity: Commande::class)]
     private $commendes;
 
     public function __construct()
@@ -135,7 +135,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->commendes;
     }
 
-    public function addCommende(Commende $commende): self
+    public function addCommende(Commande $commende): self
     {
         if (!$this->commendes->contains($commende)) {
             $this->commendes[] = $commende;
@@ -145,7 +145,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeCommende(Commende $commende): self
+    public function removeCommende(Commande $commende): self
     {
         if ($this->commendes->removeElement($commende)) {
             // set the owning side to null (unless already changed)

@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CommandeDetail index{% endblock %}
+
+{% block body %}
+    <h1>CommandeDetail index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Quantite</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for commande_detail in commande_details %}
+            <tr>
+                <td>{{ commande_detail.id }}</td>
+                <td>{{ commande_detail.quantite }}</td>
+                <td>
+                    <a href="{{ path('admin_commande_detail_show', {'id': commande_detail.id}) }}">show</a>
+                    <a href="{{ path('admin_commande_detail_edit', {'id': commande_detail.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_commande_detail_new') }}">Create new</a>
+{% endblock %}

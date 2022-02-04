@@ -27,6 +27,12 @@ class Commande
     #[ORM\Column(type: 'date', nullable: true)]
     private $dateReception;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'commendes')]
+    private $acheteur;
+
+    #[ORM\Column(type: 'string', length: 45, nullable: true)]
+    private $reference;
+
     public function __construct()
     {
         $this->details = new ArrayCollection();
@@ -102,4 +108,28 @@ class Commande
 
         return $this;
     }
+
+public function getAcheteur(): ?User
+{
+    return $this->acheteur;
+}
+
+public function setAcheteur(?User $acheteur): self
+{
+    $this->acheteur = $acheteur;
+
+    return $this;
+}
+
+public function getReference(): ?string
+{
+    return $this->reference;
+}
+
+public function setReference(?string $reference): self
+{
+    $this->reference = $reference;
+
+    return $this;
+}
 }
